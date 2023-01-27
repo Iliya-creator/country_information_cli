@@ -18,7 +18,3 @@ class Country
 end
 
 
-usa = Country.new("United States of America", "100000000", "1234567" )
-
-puts "#{usa.name} has an area of #{usa.area} kilometers squared."
-puts Country.all

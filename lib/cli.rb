@@ -1,8 +1,10 @@
 class CLI
     def run
         system('clear')
+
         greeting
         instruction_prompt
+        Scraper.scrape_country
         while menu != 'exit'
 
         end
@@ -29,7 +31,16 @@ class CLI
         puts "----------------------------"
         puts "> What would you like to know?"
         input = gets.chomp
+        if input == "exit" 
+            return input
+        end
         choose_option(input)
+        puts "Would you like to continue? y for YES, n for NO"
+        puts ""
+        cont_input = gets.chomp
+        if cont_input == "n" || cont_input == "exit"
+            return "exit"
+        end
         return input
     end
 
@@ -45,14 +56,54 @@ class CLI
     def choose_option(input)
         case input
         when "1"
-            puts "Option 1 was chosen"
+            puts "You selected Option 1: What is the country with the largest area?"
+            puts "____________________________________________________"
+            puts ""
+            puts "#{find_largest_area.name} has the largest area." 
+            puts "It's area is #{find_largest_area.area} kilometers squared."
+            puts "____________________________________________________"
+            puts ""
         when "2"
-            puts "Option 2 was chosen"
+            puts "You selected Option 2: What country has the largest population?"
+            puts "____________________________________________________"
+            puts ""
+            puts "#{find_largest_population.name} has the largest population."
+            puts "It's population is #{find_largest_population.population}."
+            puts "____________________________________________________"
+            puts ""
         when "3"
-            puts "Option 3 was chosen"
+            puts "You selected Option 3: What country has the smallest area?"
+            puts "____________________________________________________"
+            puts ""
+            puts "#{find_smallest_area.name} has the smallest area."
+            puts  "It's area is #{find_smallest_area.area} kilometers squared."
+            puts "____________________________________________________"
+            puts ""
         when "4"
-            puts "Option 4 was chosen"
+            puts "You selected Option 4: What country has the smallest population?"
+            puts "____________________________________________________"
+            puts ""
+            puts "#{find_smallest_population.name} has the smallest population."
+            puts "It's population is #{find_smallest_population.population}."
+            puts "____________________________________________________"
+            puts ""
         end
+    end
+
+    def find_largest_area
+        Country.all.max{|a, b| a.area <=> b.area}
+    end
+
+    def find_largest_population
+        Country.all.max{|a, b| a.population <=> b.population}
+    end
+
+    def find_smallest_area
+        Country.all.min{|a, b| a.area <=> b.area}
+    end
+
+    def find_smallest_population
+        Country.all.min{|a, b| a.population <=> b.population}
     end
 
     def end_program
